@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -37,13 +38,13 @@ class APIController extends Controller
     public function downloadRecording($date, $recordingfile)
     {
         // Parse the date
-        $dt = \DateTime::createFromFormat('Y-m-d\TH:i:s', $date);
+        $dt = Carbon::parse($date);
         $year = $dt->format('Y');
         $month = $dt->format('m');
         $day = $dt->format('d');
 
         // Construct the file path
-        $filePath = storage_path("/home/monitor/{$year}/{$month}/{$day}/{$recordingfile}");
+        $filePath = Storage::disk('monitor')->path("/{$year}/{$month}/{$day}/{$recordingfile}");
 
         // Check if the file exists
         if (!file_exists($filePath)) {
