@@ -176,7 +176,7 @@ class APIController extends Controller
                 'transport' => 'transport-udp',
                 'aors' => $extension,
                 'auth' => $extension,
-                'context' => $account['username'],
+                'context' => 'default',
                 'disallow' => 'all',
                 'allow' => 'ulaw,alaw,gsm',
                 'direct_media' => 'no',
