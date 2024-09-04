@@ -158,6 +158,19 @@ class APIController extends Controller
         ]);
 
         try {
+
+            DB::table('ps_aors')->insert([
+                'id' => $extension,
+                'max_contacts' => 2
+            ]);
+
+            DB::table('ps_auths')->insert([
+                'id' => $extension,
+                'auth_type' => 'userpass',
+                'password' => $extension,
+                'username' => $extension
+            ]);
+
             DB::table('ps_endpoints')->insert([
                 'id' => $extension,
                 'transport' => 'transport-udp',
@@ -181,6 +194,8 @@ class APIController extends Controller
     public function deleteAccount($extension)
     {
         try {
+            DB::table('ps_aors')->where('id', $extension)->delete();
+            DB::table('ps_auths')->where('id', $extension)->delete();
             DB::table('ps_endpoints')->where('id', $extension)->delete();
 
             return response()->json(['message' => 'Account deleted successfully']);
